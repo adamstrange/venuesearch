@@ -11,7 +11,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.strangea.venuesearch.api.Api;
 import com.strangea.venuesearch.api.ApiManager;
+import com.strangea.venuesearch.api.DaggerApi;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,11 +29,15 @@ public class MainActivity extends AppCompatActivity {
     @VisibleForTesting @BindView(R.id.edit_text) EditText editText;
     @VisibleForTesting @BindView(R.id.progress_layout) View progressView;
 
+    private Api api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        api = DaggerApi.create();
     }
 
     @OnClick(R.id.button)
@@ -41,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         progressView.setVisibility(View.VISIBLE);
-        ApiManager.getApiManager().getVenueList(editText.getText().toString())
+
+        api.apiManager().getVenueList(editText.getText().toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<String>() {
