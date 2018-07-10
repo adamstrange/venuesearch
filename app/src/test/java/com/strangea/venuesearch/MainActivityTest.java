@@ -1,5 +1,7 @@
 package com.strangea.venuesearch;
 
+import android.view.View;
+
 import com.strangea.venuesearch.api.ApiManager;
 
 import org.junit.Before;
@@ -59,6 +61,7 @@ public class MainActivityTest {
         classUnderTest.editText.setText("London");
         classUnderTest.search();
         assertEquals(classUnderTest.textView.getText().toString(), test);
+        assertEquals(classUnderTest.progressView.getVisibility(), View.GONE);
     }
 
     @Test
@@ -72,6 +75,7 @@ public class MainActivityTest {
         classUnderTest.editText.setText("London");
         classUnderTest.search();
         assertEquals(classUnderTest.textView.getText().toString(), test);
+        assertEquals(classUnderTest.progressView.getVisibility(), View.GONE);
     }
 
 }
